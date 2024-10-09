@@ -1,9 +1,19 @@
 fn collatz_step(x: usize) -> usize {
-    todo!("Return the next number in the collatz sequence")
+    if x % 2 == 0 {
+        x / 2
+    } else {
+        3 * x + 1
+    }
 }
 
-fn collatz_length(x: usize) -> usize {
-    todo!("Return the number of steps before reaching 1 in the collatz sequence starting from x")
+fn collatz_length(mut x: usize) -> usize {
+    let mut count = 0;
+    while x != 1 {
+        x = collatz_step(x);
+        count += 1;
+    }
+
+    count
 }
 
 #[cfg(test)]

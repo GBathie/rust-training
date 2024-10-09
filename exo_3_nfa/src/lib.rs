@@ -1,34 +1,54 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 pub struct Nfa {
-    // TODO: add members
+    initial: HashSet<State>,
+    accepting: HashSet<State>,
+    transitions: Vec<HashMap<char, HashSet<State>>>, // TODO: add members
 }
 
 type State = usize;
 
 impl Nfa {
     pub fn new(n_states: usize) -> Self {
-        todo!("Create a new Nfa with n_states states")
+        Self {
+            initial: HashSet::default(),
+            accepting: HashSet::default(),
+            transitions: vec![HashMap::default(); n_states],
+        }
     }
 
     pub fn add_transition(&mut self, from: State, to: State, label: char) {
-        todo!("Add a transition to Self")
+        self.transitions[from].entry(label).or_default().insert(to);
     }
 
     pub fn add_initial(&mut self, q: State) {
-        todo!("Add q to the set of initial states");
+        self.initial.insert(q);
     }
 
     pub fn add_final(&mut self, q: State) {
-        todo!("Add q to the set of final states");
+        self.accepting.insert(q);
     }
 
     fn step(&self, states: HashSet<State>, a: char) -> HashSet<State> {
-        todo!("Compute the transition labeled by a in Self")
+        let mut res = HashSet::new();
+        for p in states {
+            if let Some(tr) = self.transitions[p].get(&a) {
+                for q in tr {
+                    res.insert(*q);
+                }
+            }
+        }
+
+        res
     }
 
     pub fn accepts(&self, s: &str) -> bool {
-        todo!("Test whether s is in the language of Self")
+        let mut states = self.initial.clone();
+        for a in s.chars() {
+            states = self.step(states, a);
+        }
+
+        !states.is_disjoint(&self.accepting)
     }
 }
 
