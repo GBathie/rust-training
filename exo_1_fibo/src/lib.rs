@@ -1,5 +1,9 @@
 fn fib(n: usize) -> usize {
-    todo!("Compute the n-th fibonacci number")
+    match n {
+        0 => 0,
+        1 => 1,
+        n => fib(n - 1) + fib(n - 2),
+    }
 }
 
 #[cfg(test)]
