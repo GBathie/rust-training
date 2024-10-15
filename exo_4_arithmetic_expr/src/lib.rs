@@ -32,7 +32,7 @@ impl ArithmeticExpr {
                         _ => unreachable!(),
                     };
                     let op = ArithmeticExpr::Operation {
-                        op: op,
+                        op,
                         left: Box::from(left),
                         right: Box::from(right),
                     };
@@ -40,7 +40,7 @@ impl ArithmeticExpr {
                 }
 
                 x if x.starts_with("x_") => {
-                    let id: usize = x.split("_").skip(1).next().unwrap().parse().unwrap();
+                    let id: usize = x.split("_").nth(1).unwrap().parse().unwrap();
                     let var = ArithmeticExpr::Var(id);
                     stack.push(var);
                 }
@@ -80,6 +80,10 @@ impl ArithmeticExpr {
         }
     }
 }
+
+trait Magma {}
+
+impl<'a, T> Magma for &'a T where &'a T: Mul<Output = T> {}
 
 #[cfg(test)]
 mod test {
@@ -150,7 +154,3 @@ mod test {
         assert_eq!(expr.evaluate(&vars), 0);
     }
 }
-
-trait Magma {}
-
-impl<'a, T> Magma for &'a T where &'a T: Mul<Output = T> {}

@@ -40,7 +40,7 @@ where
                 value: node_value,
                 left,
                 right,
-            } => match key.cmp(&node_key) {
+            } => match key.cmp(node_key) {
                 Ordering::Less => left.insert(key, value),
                 Ordering::Equal => {
                     mem::swap(&mut value, node_value);
@@ -59,7 +59,7 @@ where
                 value,
                 left,
                 right,
-            } => match key.cmp(&node_key) {
+            } => match key.cmp(node_key) {
                 Ordering::Less => left.get(key),
                 Ordering::Equal => Some(value),
                 Ordering::Greater => right.get(key),
@@ -120,7 +120,7 @@ where
                 value,
                 left,
                 right,
-            } => match key.cmp(&node_key) {
+            } => match key.cmp(node_key) {
                 Ordering::Less => left.remove(key),
                 Ordering::Equal => {
                     if let Some((k, v)) = right.pop_smallest() {
@@ -136,6 +136,15 @@ where
                 Ordering::Greater => right.remove(key),
             },
         }
+    }
+}
+
+impl<K, V> Default for BinaryTreeMap<K, V>
+where
+    K: Ord,
+ {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
