@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Mul};
 
 pub enum ArithmeticExpr {
     Const(i32),
@@ -150,3 +150,7 @@ mod test {
         assert_eq!(expr.evaluate(&vars), 0);
     }
 }
+
+trait Magma {}
+
+impl<'a, T> Magma for &'a T where &'a T: Mul<Output = T> {}
