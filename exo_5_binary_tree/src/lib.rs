@@ -142,7 +142,7 @@ where
 impl<K, V> Default for BinaryTreeMap<K, V>
 where
     K: Ord,
- {
+{
     fn default() -> Self {
         Self::new()
     }
